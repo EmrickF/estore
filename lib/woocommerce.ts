@@ -38,7 +38,7 @@ export async function getProductById(id: string): Promise<Product> {
   )
 
   if (!res.ok) {
-    throw new Error("Failed to fetch product")
+    throw new Error("Failed to find product")
   }
 
   return res.json()

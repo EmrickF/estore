@@ -16,7 +16,7 @@ export default async function Home() {
             />
           )}
           <h2 className="font-bold">{product.name}</h2>
-          <p>{product.price} kr</p>
+          <p>{product.price} €</p>
         </div>
       ))}
     </div>
