@@ -27,7 +27,7 @@ export default async function ProductPage({
       </h1>
 
       <p className="text-lg mb-4">
-        {product.price} kr
+        {product.price} €
       </p>
 
       <div
