@@ -7,8 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter()
+  const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -16,30 +17,38 @@ export default function LoginPage() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    const res = await fetch("/api/auth/login", {
+    const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ name, email, password }),
     })
 
     if (!res.ok) {
       const data = await res.json()
-      setError(data.message || "Login failed")
+      setError(data.message || "Registration failed")
       return
     }
 
-    router.push("/my-orders")
-    router.refresh()
+    router.push("/login")
   }
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       <Card className="w-100">
         <CardHeader>
-          <CardTitle>Log in</CardTitle>
+          <CardTitle>Register</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Label>Name</Label>
+              <Input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+
             <div>
               <Label>Email</Label>
               <Input
@@ -59,10 +68,11 @@ export default function LoginPage() {
                 required
               />
             </div>
-                            
-            {error && <p className="text-red-400 text-sm">{error}</p>}
-                <Button type="submit" className="w-full">
-              Login
+
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+
+            <Button type="submit" className="w-full">
+              Register
             </Button>
           </form>
         </CardContent>

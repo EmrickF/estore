@@ -1,31 +1,45 @@
-"use client"
-
 import Link from "next/link"
+import { cookies } from "next/headers"
 import { Button } from "@/components/ui/button"
 
-export function Navbar() {
+export default async function Navbar() {
+  const userId = (await cookies()).get("userId")?.value
+  const isLoggedIn = !!userId
+
   return (
-    <nav className="border-b bg-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        
-        <Link href="/" className="text-xl font-bold">
-          E-Store
-        </Link>
+    <nav className="flex justify-between items-center px-8 py-4 border-b">
+      <Link href="/" className="font-bold text-lg">
+        E-Store
+      </Link>
 
-        <div className="flex items-center gap-3">
-          <Link href="/login">
-            <Button variant="outline">Login</Button>
-          </Link>
+      <div className="flex gap-4">
+        {isLoggedIn ? (
+          <>
+            <Link href="/">
+              <Button variant="ghost">Home</Button>
+            </Link>
 
-          <Link href="/register">
-            <Button>Register</Button>
-          </Link>
+            <Link href="/my-orders">
+              <Button variant="ghost">My Orders</Button>
+            </Link>
 
-          <Link href="/orders">
-            <Button variant="ghost">My Orders</Button>
-          </Link>
-        </div>
+            <form action="/api/auth/logout" method="POST">
+              <Button type="submit" variant="destructive">
+                Logout
+              </Button>
+            </form>
+          </>
+        ) : (
+          <>
+            <Link href="/login">
+              <Button variant="ghost">Login</Button>
+            </Link>
 
+            <Link href="/register">
+              <Button>Register</Button>
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   )

@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/ui/navbar"
+import  Navbar  from "@/components/ui/navbar"
 import { getProducts } from "@/lib/woocommerce"
 import { Product } from "@/types/product"
 
