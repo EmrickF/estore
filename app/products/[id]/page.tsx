@@ -13,7 +13,7 @@ export default async function ProductPage({
   const product: Product = await getProductById(params.id)
 
   return (
-    <div className="p-8 max-w-3xl mx-auto">
+    <div className="p-7 max-w-4xl mx-auto">
       {product.images?.[0] && (
         <img
           src={product.images[0].src}
@@ -21,15 +21,12 @@ export default async function ProductPage({
           className="mb-4"
         />
       )}
-
-      <h1 className="text-2xl font-bold mb-2">
+      <h1 className="text-2xl font-bold mb-3">
         {product.name}
       </h1>
-
-      <p className="text-lg mb-4">
+      <p className="text-lg mb-3">
         {product.price} €
       </p>
-
       <div
         dangerouslySetInnerHTML={{
           __html: product.description,

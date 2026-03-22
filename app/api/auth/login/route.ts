@@ -10,7 +10,7 @@ export async function POST(req: Request) {
 
     if (!email || !password) {
       return NextResponse.json(
-        { message: "Email and password required" },
+        { message: "Email och password krävs " },
         { status: 400 }
       )
     }
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { message: "Invalid credentials" },
+        { message: "Ogiltiga inloggningsuppgifter" },
         { status: 401 }
       )
     }
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 
     if (!passwordMatch) {
       return NextResponse.json(
-        { message: "Invalid credentials" },
+        { message: "Ogiltiga inloggningsuppgifter" },
         { status: 401 }
       )
     }
@@ -42,11 +42,11 @@ export async function POST(req: Request) {
       maxAge: 60 * 60 * 12, 
     })
 
-    return NextResponse.json({ message: "Login successful" })
+    return NextResponse.json({ message: "Inloggning lyckades" })
   } catch (error) {
     console.error(error)
     return NextResponse.json(
-      { message: "Something went wrong" },
+      { message: "Något gick fel" },
       { status: 500 }
     )
   }

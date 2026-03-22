@@ -7,12 +7,12 @@ export default async function Navbar() {
   const isLoggedIn = !!userId
 
   return (
-    <nav className="flex justify-between items-center px-8 py-4 border-b">
+    <nav className="flex justify-between items-center px-9 py-5 border-b">
       <Link href="/" className="font-bold text-lg">
         E-Store
       </Link>
 
-      <div className="flex gap-4">
+      <div className="flex gap-5">
         {isLoggedIn ? (
           <>
             <Link href="/">

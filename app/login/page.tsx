@@ -24,7 +24,7 @@ export default function LoginPage() {
 
     if (!res.ok) {
       const data = await res.json()
-      setError(data.message || "Login failed")
+      setError(data.message || "inloggnign misslyckades")
       return
     }
 
@@ -45,7 +45,7 @@ export default function LoginPage() {
               <Input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)} 
                 required
               />
             </div>

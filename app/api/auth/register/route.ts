@@ -9,7 +9,7 @@ export async function POST(req: Request) {
 
     if (!name || !email || !password) {
       return NextResponse.json(
-        { message: "All fields are required" },
+        { message: "Alla fält behöver vara ifyllda" },
         { status: 400 }
       )
     }
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
     if (existingUser) {
       return NextResponse.json(
-        { message: "User already exists" },
+        { message: "Användare finns redan" },
         { status: 400 }
       )
     }
@@ -35,11 +35,11 @@ export async function POST(req: Request) {
       },
     })
 
-    return NextResponse.json({ message: "User created" }, { status: 201 })
+    return NextResponse.json({ message: "Användare skapad" }, { status: 201 })
   } catch (error) {
     console.error(error)
     return NextResponse.json(
-      { message: "Something went wrong" },
+      { message: "Något gick fel" },
       { status: 500 }
     )
   }
