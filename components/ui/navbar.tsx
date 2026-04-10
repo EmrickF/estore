@@ -72,11 +72,20 @@ export default function Navbar() {
               <Button variant="ghost">My Orders</Button>
             </Link>
 
-            <form action="/api/auth/logout" method="POST">
-              <Button type="submit" variant="destructive">
-                Logout
-              </Button>
-            </form>
+            <Button
+              type="button"
+              onClick={async () => {
+                await fetch("/api/auth/logout", { method: "POST" })
+                localStorage.removeItem("cart")
+                localStorage.removeItem("auth-event")
+                localStorage.removeItem("cart-event")
+                window.dispatchEvent(new Event("auth-change"))
+                window.location.href = "/"
+              }}
+              variant="destructive"
+            >
+              Logout
+            </Button>
           </>
         ) : (
           <>
