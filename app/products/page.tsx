@@ -1,5 +1,7 @@
+import { addToCart } from "@/lib/cart"
 import { getProducts } from "@/lib/woocommerce"
 import { Product } from "@/types/product"
+import Image from "next/image"
 import Link from "next/link"
 
 export default async function ProductsPage() {
@@ -8,22 +10,31 @@ export default async function ProductsPage() {
   return (
     <div className="grid grid-cols-3 gap-6 p-8">
       {products.map((product) => (
-        <Link key={product.id} href={`/produkter/${product.id}`}>
-          <div className="border p-4 rounded hover:shadow">
+        <div key={product.id} className="border p-4 rounded hover:shadow">
+          <Link href={`/produkter/${product.id}`} className="group block">
             {product.images?.[0] && (
-              <div className="overflow-hidden rounded">
-                <img
+              <div className="border rounded-lg p-4 overflow-hidden">
+                <Image
                   src={product.images[0].src}
-                  alt={product.images[0].alt}
-                  className="transition-transform duration-200 hover:scale-110"
+                  alt={product.name}
+                  width={500}
+                  height={300}
+                  className="h-40 w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
             )}
-
-            <h2 className="font-bold">{product.name}</h2>
+            <h2 className="font-bold mt-4">{product.name}</h2>
             <p>{product.price} €</p>
-          </div>
-        </Link>
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => addToCart(product)}
+            className="bg-black text-white px-4 py-2 mt-4 w-full"
+          >
+            Add to Cart
+          </button>
+        </div>
       ))}
     </div>
   )

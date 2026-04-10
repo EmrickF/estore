@@ -28,6 +28,11 @@ export default function LoginPage() {
       return
     }
 
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("auth-change"))
+      localStorage.setItem("auth-event", Date.now().toString())
+    }
+
     router.push("/my-orders")
     router.refresh()
   }

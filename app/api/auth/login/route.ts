@@ -35,13 +35,21 @@ export async function POST(req: Request) {
       )
     }
 
-    (await cookies()).set("userId", user.id.toString(), {
+    const cookieStore = await cookies()
+    cookieStore.set("userId", user.id.toString(), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 60 * 60 * 12, 
+    })
+    cookieStore.set("userEmail", user.email, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
       maxAge: 60 * 60 * 12, 
     })
 
+    
     return NextResponse.json({ message: "Inloggning lyckades" })
   } catch (error) {
     console.error(error)
@@ -50,4 +58,6 @@ export async function POST(req: Request) {
       { status: 500 }
     )
   }
+  
 }
+

@@ -58,7 +58,7 @@ export default function RegisterPage() {
                 required
               />
             </div>
-
+            
             <div>
               <Label>Password</Label>
               <Input
