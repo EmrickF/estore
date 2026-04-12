@@ -1,6 +1,6 @@
 ﻿// Hjälpfunktion för att lägga till en produkt i localStorage-kundvagnen.
-export function addToCart(product: Record<string, unknown>) {
-  const cart = JSON.parse(localStorage.getItem("cart") || "[]")
+export function addToCart(product: unknown) {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]") as unknown[]
   cart.push(product)
   localStorage.setItem("cart", JSON.stringify(cart))
 
