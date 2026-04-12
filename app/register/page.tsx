@@ -14,6 +14,9 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
 
+  // Registreringssidan skickar användarinformation till auth/register API:et.
+
+  // Hanterar registerformulärets submit och skapar ny användare.
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 

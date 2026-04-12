@@ -21,7 +21,6 @@ model Order {
   userId        Int
   product       String
   amount        Int
-  paymentMethod String
   createdAt     DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)

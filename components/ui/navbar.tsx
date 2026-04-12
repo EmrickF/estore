@@ -8,7 +8,10 @@ export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [hasCartItems, setHasCartItems] = useState(false)
 
+  // Navigationsbar som visar inloggning, kundvagn och länkar beroende på status.
+
   useEffect(() => {
+    // Kontrollerar om användaren är inloggad via servern
     async function fetchSession() {
       const res = await fetch("/api/auth/session")
       if (res.ok) {
@@ -17,6 +20,7 @@ export default function Navbar() {
       }
     }
 
+    // Räknar antalet produkter i kundvagnen för att visa Cart-länken
     function updateCartCount() {
       try {
         const cart = JSON.parse(localStorage.getItem("cart") || "[]")
@@ -26,7 +30,8 @@ export default function Navbar() {
       }
     }
 
-    function handleAuthChange() {
+    // Uppdatera navbaren när inloggning eller kundvagn ändras
+    function handleAuthOrCartChange() {
       fetchSession()
       updateCartCount()
     }
@@ -41,10 +46,12 @@ export default function Navbar() {
     fetchSession()
     updateCartCount()
 
-    window.addEventListener("auth-change", handleAuthChange)
+    window.addEventListener("auth-change", handleAuthOrCartChange)
+    window.addEventListener("cart-change", handleAuthOrCartChange)
     window.addEventListener("storage", handleStorage)
     return () => {
-      window.removeEventListener("auth-change", handleAuthChange)
+      window.removeEventListener("auth-change", handleAuthOrCartChange)
+      window.removeEventListener("cart-change", handleAuthOrCartChange)
       window.removeEventListener("storage", handleStorage)
     }
   }, [])

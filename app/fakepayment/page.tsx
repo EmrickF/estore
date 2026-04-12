@@ -11,6 +11,7 @@ type Product = {
   images: { src: string }[]
 }
 
+// Betalningssida som visar vald produkt och skapar en order när användaren bekräftar.
 function FakePaymentContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -30,6 +31,7 @@ function FakePaymentContent() {
       return
     }
 
+    // Hämta produktinformation från produkt-API:et baserat på query-parametern.
     async function fetchProduct() {
       try {
         const res = await fetch("/api/products")
@@ -47,6 +49,7 @@ function FakePaymentContent() {
     fetchProduct()
   }, [searchParams])
 
+  // Skickar ordern till servern och hanterar statuskoder.
   async function placeOrder() {
     if (!product) return
 
@@ -58,7 +61,6 @@ function FakePaymentContent() {
       body: JSON.stringify({
         product: product.name,
         amount: 1,
-        paymentMethod: "card",
       }),
     })
 

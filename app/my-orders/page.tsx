@@ -25,7 +25,6 @@ export default async function MyOrdersPage() {
         <div key={order.id} className="border p-4 rounded-lg">
           <p><strong>Product:</strong> {order.product}</p>
           <p><strong>Amount:</strong> {order.amount}</p>
-          <p><strong>Payment:</strong> {order.paymentMethod}</p>
           <p className="text-sm text-gray-500">
             {new Date(order.createdAt).toLocaleDateString()}
           </p>

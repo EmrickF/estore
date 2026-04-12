@@ -13,6 +13,9 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
 
+  // Inloggningssidan skickar e-post och lösenord till auth/login.
+
+  // Hanterar formens submit och loggar in användaren.
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 

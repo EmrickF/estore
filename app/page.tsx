@@ -12,18 +12,21 @@ type Product = {
   images: { src: string }[]
 }
 
+// Startsidan visar produkter och låter användaren beställa eller lägga till i kundvagnen.
 export default function HomePage() {
   const router = useRouter()
   const [products, setProducts] = useState<Product[]>([])
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
+    // Hämta produktlistan från servern
     async function fetchProducts() {
       const res = await fetch("/api/products")
       const data = await res.json()
       setProducts(data)
     }
 
+    // Kolla om användaren är inloggad via session-API
     async function fetchSession() {
       const res = await fetch("/api/auth/session")
       if (res.ok) {
@@ -36,6 +39,7 @@ export default function HomePage() {
     fetchSession()
   }, [])
 
+  // Navigerar till betalningssidan om användaren är inloggad
   async function orderProduct(product: Product) {
     if (!isLoggedIn) {
       router.push('/login')

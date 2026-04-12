@@ -10,11 +10,14 @@ export default function CartPage() {
     price: string
   }
 
+  // Kundvagnssidan ser locally stored cookies och skickar dem.
+
   const router = useRouter()
   const [cart, setCart] = useState<CartItem[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    // Läs kundvagnens innehåll från localStorage
     function loadCart() {
       if (typeof window === "undefined") return
       try {
@@ -25,12 +28,14 @@ export default function CartPage() {
       }
     }
 
+    // Event-handler för cart-change-händelser
     function handleCartChange() {
       loadCart()
     }
 
     loadCart()
     window.addEventListener("cart-change", handleCartChange)
+    // Lyssnar på storage för att märk ändringa i flikar
     function handleStorage(event: StorageEvent) {
       if (event.key === "cart-event") {
         loadCart()
@@ -44,9 +49,10 @@ export default function CartPage() {
     }
   }, [])
 
+  // Skickar objekt i kundvagnen
   async function orderAll() {
     if (cart.length === 0) {
-      alert("Your cart is empty.")
+      alert("vagn är tom")
       return
     }
 
@@ -59,7 +65,6 @@ export default function CartPage() {
           orders: cart.map((item) => ({
             product: item.name,
             amount: 1,
-            paymentMethod: "card",
           })),
         }),
       })
