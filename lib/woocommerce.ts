@@ -25,17 +25,15 @@ export async function getProducts(): Promise<Product[]> {
 }
 
 export async function getProductById(id: string): Promise<Product> {
-  const res = await fetch(
-    `${baseUrl}/wp-json/wc/v3/products/${id}`,
-    {
-      headers: {
-        Authorization: `Basic ${getAuthString()}`,
-      },
-      cache: "no-store",
-    }
-  )
+  const url = `${baseUrl}/wp-json/wc/v3/products/${id}?consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`
+
+  const res = await fetch(url, {
+    cache: "no-store",
+  })
 
   if (!res.ok) {
+    const text = await res.text()
+    console.error("WooCommerce product fetch failed", res.status, text)
     throw new Error("Failed to find product")
   }
 

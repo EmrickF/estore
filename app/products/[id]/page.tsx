@@ -13,7 +13,24 @@ interface ProductPageProps {
 export default async function ProductPage({
   params,
 }: ProductPageProps) {
-  const product: Product = await getProductById(params.id)
+  let product: Product | null = null
+  let errorMessage = ""
+
+  try {
+    product = await getProductById(params.id)
+  } catch (error) {
+    console.error("Product page load failed", error)
+    errorMessage = "Kunde inte ladda produkten. Kontrollera att ID är korrekt eller försök igen senare."
+  }
+
+  if (!product) {
+    return (
+      <div className="p-7 max-w-4xl mx-auto">
+        <h1 className="text-2xl font-bold mb-4">Produkt saknas</h1>
+        <p className="text-red-500">{errorMessage}</p>
+      </div>
+    )
+  }
 
   return (
     <div className="p-7 max-w-4xl mx-auto">
@@ -26,12 +43,9 @@ export default async function ProductPage({
           className="mb-4 w-full max-w-full object-contain"
         />
       )}
-      <h1 className="text-2xl font-bold mb-3">
-        {product.name}
-      </h1>
-      <p className="text-lg mb-3">
-        {product.price} €
-      </p>
+      <p className="text-sm text-gray-500 mb-2">ID: {params.id}</p>
+      <h1 className="text-2xl font-bold mb-3">{product.name}</h1>
+      <p className="text-lg mb-3">{product.price} €</p>
       <div
         dangerouslySetInnerHTML={{
           __html: product.description,
