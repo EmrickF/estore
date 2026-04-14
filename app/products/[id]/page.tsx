@@ -1,8 +1,8 @@
-import Image from "next/image"
-import { getProductById } from "@/lib/woocommerce"
-import { Product } from "@/types/product"
+"use client"
 
-export const dynamic = "force-dynamic"
+import Image from "next/image"
+import { Product } from "@/types/product"
+import { useEffect, useState } from "react"
 
 interface ProductPageProps {
   params: {
@@ -10,24 +10,44 @@ interface ProductPageProps {
   }
 }
 
-export default async function ProductPage({
-  params,
-}: ProductPageProps) {
-  let product: Product | null = null
-  let errorMessage = ""
+export default function ProductPage({ params }: ProductPageProps) {
+  const [product, setProduct] = useState<Product | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
-  try {
-    product = await getProductById(params.id)
-  } catch (error) {
-    console.error("Product page load failed", error)
-    errorMessage = "Kunde inte ladda produkten. Kontrollera att ID är korrekt eller försök igen senare."
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        const res = await fetch("/api/products")
+        if (!res.ok) {
+          throw new Error("Failade fetchen")
+        }
+        const products: Product[] = await res.json()
+        const foundProduct = products.find(p => p.id === Number(params.id))
+        if (!foundProduct) {
+          throw new Error("Product not found")
+        }
+        setProduct(foundProduct)
+      } catch (err) {
+        console.error("Error loading product", err)
+        setError(err instanceof Error ? err.message : "Unknown error")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProduct()
+  }, [params.id])
+
+  if (loading) {
+    return <div className="p-7 max-w-4xl mx-auto">Loading...</div>
   }
 
-  if (!product) {
+  if (error || !product) {
     return (
       <div className="p-7 max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4">Produkt saknas</h1>
-        <p className="text-red-500">{errorMessage}</p>
+        <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+        <p className="text-red-500">{error || "Product could not be loaded."}</p>
       </div>
     )
   }
