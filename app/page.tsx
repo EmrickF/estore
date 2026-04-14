@@ -12,7 +12,7 @@ type Product = {
   images: { src: string }[]
 }
 
-// Startsidan visar produkter och låter användaren beställa eller lägga till i kundvagnen.
+//visar produkter och låter användaren beställa eller lägga till i kundvagnen.
 export default function HomePage() {
   const router = useRouter()
   const [products, setProducts] = useState<Product[]>([])
@@ -75,6 +75,7 @@ className="border rounded-lg p-4 flex flex-col"
     <div className="mt-2">
       <h2 className="font-bold">{product.name}</h2>
       <p>{product.price} €</p>
+      <p className="text-sm text-gray-500">ID: {product.id}</p>
     </div>
   </div>
 

@@ -1,5 +1,8 @@
+import Image from "next/image"
 import { getProductById } from "@/lib/woocommerce"
 import { Product } from "@/types/product"
+
+export const dynamic = "force-dynamic"
 
 interface ProductPageProps {
   params: {
@@ -15,10 +18,12 @@ export default async function ProductPage({
   return (
     <div className="p-7 max-w-4xl mx-auto">
       {product.images?.[0] && (
-        <img
+        <Image
           src={product.images[0].src}
-          alt={product.images[0].alt}
-          className="mb-4"
+          alt={product.images[0].alt || product.name}
+          width={800}
+          height={600}
+          className="mb-4 w-full max-w-full object-contain"
         />
       )}
       <h1 className="text-2xl font-bold mb-3">
